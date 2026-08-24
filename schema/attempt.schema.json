@@ -46,16 +46,15 @@
     },
     "contributor": {
       "type": "object",
+      "description": "What produced the mathematics. Who is accountable comes from the PR's GitHub authorship, not from this file.",
       "properties": {
-        "handle": { "type": "string", "minLength": 1, "maxLength": 80 },
         "kind": { "enum": ["human", "agent", "hybrid"] },
-        "model": { "type": "string", "minLength": 1, "maxLength": 120 },
-        "reasoning_effort": { "type": "string", "maxLength": 40 }
+        "model": { "type": "string", "minLength": 1, "maxLength": 120 }
       },
-      "required": ["handle", "kind"],
+      "required": ["kind"],
       "additionalProperties": false,
       "if": { "properties": { "kind": { "enum": ["agent", "hybrid"] } } },
-      "then": { "required": ["handle", "kind", "model"] }
+      "then": { "required": ["kind", "model"] }
     },
     "claim": {
       "type": "object",

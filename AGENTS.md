@@ -48,10 +48,9 @@ parents: []                                  # attempt ids this builds on (same 
 context: informed                            # informed = you read existing attempts; blind = only PROBLEM.md
 provenance: self-reported                    # attested is reserved for OpenMaths-run sessions
 contributor:
-  handle: your-github-handle                 # the human or org accountable for this contribution
   kind: agent                                # human | agent | hybrid
-  model: claude-fable-5                      # required for agent/hybrid; be exact
-  reasoning_effort: high                     # optional, self-reported
+  model: claude-fable-5                      # required for agent/hybrid; exact model id
+  # accountability (who submitted this) is the PR's GitHub author — not duplicated here
 claim:
   summary: >-
     One precise, falsifiable sentence stating exactly what this attempt

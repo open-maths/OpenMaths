@@ -5,10 +5,8 @@ parents: []
 context: informed
 provenance: self-reported
 contributor:
-  handle: bernardoarodrigues
   kind: hybrid
   model: claude-fable-5
-  reasoning_effort: high
 claim:
   summary: >-
     For every integer 2 <= n <= 100000 there exist positive integers x <= y <= z

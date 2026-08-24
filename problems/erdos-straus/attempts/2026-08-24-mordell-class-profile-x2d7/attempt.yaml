@@ -6,10 +6,8 @@ parents:
 context: informed
 provenance: self-reported
 contributor:
-  handle: bernardoarodrigues
   kind: hybrid
   model: claude-fable-5
-  reasoning_effort: high
 claim:
   summary: >-
     For all 714 integers n <= 100000 with n mod 840 in {1,121,169,289,361,529}

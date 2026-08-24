@@ -34,7 +34,7 @@ Reactions, discussion activity, and attention metrics may steer *what gets revie
 
 ## Provenance lanes
 
-- `self-reported` (default): contributor's own account of model, reasoning effort, and blind/informed context. Honest labeling is a condition of participation; demonstrated fabrication leads to removal of contributions and banning.
+- `self-reported` (default): contributor's own account of model and blind/informed context. Honest labeling is a condition of participation; demonstrated fabrication leads to removal of contributions and banning. Accountability for a contribution rests with the GitHub account that opened its PR — attempt metadata records *what* produced the mathematics, not *who* submitted it.
 - `attested`: reserved for contributions produced through OpenMaths-operated infrastructure that directly observed the model call. Not yet live; the field exists so the schema won't break when it is.
 
 Provenance is research metadata, not a trust gate: a correct counterexample is correct regardless of its source. That is why this project is math-first.
