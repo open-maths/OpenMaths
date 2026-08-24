@@ -93,7 +93,6 @@ def build_graph_json(problems):
                 "parents": a.get("parents", []),
                 "refutes": a.get("refutes"),
                 "context": a.get("context"),
-                "provenance": a.get("provenance"),
                 "contributor_kind": a["contributor"]["kind"],
                 "model": a["contributor"].get("model"),
                 "claim": a["claim"]["summary"],

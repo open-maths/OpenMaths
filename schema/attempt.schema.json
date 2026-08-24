@@ -40,10 +40,6 @@
       "enum": ["informed", "blind"],
       "description": "informed = read existing attempts; blind = saw only PROBLEM.md and standard mathematics"
     },
-    "provenance": {
-      "enum": ["self-reported", "attested"],
-      "description": "attested is reserved for OpenMaths-operated inference; everything else is self-reported"
-    },
     "contributor": {
       "type": "object",
       "description": "What produced the mathematics. Who is accountable comes from the PR's GitHub authorship, not from this file.",
@@ -103,7 +99,6 @@
     "type",
     "parents",
     "context",
-    "provenance",
     "contributor",
     "claim",
     "verification",

@@ -4,7 +4,6 @@ type: computational-evidence
 parents:
   - 2026-08-24-baseline-witness-harness-k7f2
 context: informed
-provenance: self-reported
 contributor:
   kind: hybrid
   model: claude-fable-5

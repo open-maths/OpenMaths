@@ -3,7 +3,6 @@ problem: erdos-straus
 type: computational-evidence
 parents: []
 context: informed
-provenance: self-reported
 contributor:
   kind: hybrid
   model: claude-fable-5

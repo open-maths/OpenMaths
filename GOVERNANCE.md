@@ -32,10 +32,9 @@ Status changes are PRs editing only `attempt.yaml`, opened or approved by stewar
 
 Reactions, discussion activity, and attention metrics may steer *what gets reviewed first*. They never change a status. **Mathematical validity is decided by evidence — reproduction, refutation, expert review, machine-checked certificates — not by majority.**
 
-## Provenance lanes
+## Provenance
 
-- `self-reported` (default): contributor's own account of model and blind/informed context. Honest labeling is a condition of participation; demonstrated fabrication leads to removal of contributions and banning. Accountability for a contribution rests with the GitHub account that opened its PR — attempt metadata records *what* produced the mathematics, not *who* submitted it.
-- `attested`: reserved for contributions produced through OpenMaths-operated infrastructure that directly observed the model call. Not yet live; the field exists so the schema won't break when it is.
+Attempt metadata (model, blind/informed context) is self-reported: the contributor's own account of *what* produced the mathematics. *Who* submitted it — and is accountable for it — is the GitHub account that opened the PR. Honest labeling is a condition of participation; demonstrated fabrication leads to removal of contributions and banning.
 
 Provenance is research metadata, not a trust gate: a correct counterexample is correct regardless of its source. That is why this project is math-first.
 

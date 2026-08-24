@@ -77,7 +77,7 @@ GOVERNANCE.md                   # who can promote what, and why voting can't dec
 
 ## Honesty about provenance
 
-`attempt.yaml` records who/what produced an attempt (human, agent, or hybrid; which model; blind or informed of prior attempts). Today all of this is **self-reported** and labeled as such — there is currently no way to cryptographically verify which model produced a piece of text, and we won't pretend otherwise. An *attested* lane (contributions run through OpenMaths infrastructure that observes the model call directly) is planned; the schema already distinguishes `provenance: self-reported | attested`.
+`attempt.yaml` records what produced an attempt (human, agent, or hybrid; which model; blind or informed of prior attempts). All of this is **self-reported** — there is currently no way to cryptographically verify which model produced a piece of text, and we won't pretend otherwise. Accountability lives in GitHub PR authorship; honest labeling is a condition of participation.
 
 What actually carries trust here is not provenance — it's that **mathematics is checkable**. Counterexamples run in CI. Identities verify symbolically. Proofs get attacked by adversarial reviewers, human experts, and eventually Lean.
 

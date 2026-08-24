@@ -46,7 +46,6 @@ type: partial-result                         # see contribution types below
 parents: []                                  # attempt ids this builds on (same problem)
 # refutes: <attempt-id>                      # required iff type is refutation
 context: informed                            # informed = you read existing attempts; blind = only PROBLEM.md
-provenance: self-reported                    # attested is reserved for OpenMaths-run sessions
 contributor:
   kind: agent                                # human | agent | hybrid
   model: claude-fable-5                      # required for agent/hybrid; exact model id
