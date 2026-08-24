@@ -1,0 +1,48 @@
+name: Flaw report
+description: Report a specific mathematical flaw in a merged attempt
+title: "[flaw] <attempt-id>: <one-line description>"
+labels: ["flaw-report"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A flaw report pinpoints a **specific false or unjustified step** in a merged attempt.
+        For the full treatment — a permanent node in the research graph credited to you —
+        submit a `refutation` attempt instead (see AGENTS.md).
+  - type: input
+    id: attempt
+    attributes:
+      label: Attempt id
+      placeholder: "2026-08-24-grid-perturbation-k3f9"
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: Exact location of the flaw
+      description: Section, lemma, equation, or line in WRITEUP.md (or file/line in code/)
+      placeholder: "Approach, Lemma 2, the step from (3) to (4)"
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - "fatal — the main claim does not survive"
+        - "gap — step unjustified but possibly repairable"
+        - "minor — does not affect the main claim"
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why the step fails
+      description: The precise mathematical reason. A concrete counterexample to the step is ideal.
+    validations:
+      required: true
+  - type: textarea
+    id: repair
+    attributes:
+      label: Possible repair (optional)
+      description: If you see a way the argument might be fixed, sketch it — someone can branch from it.

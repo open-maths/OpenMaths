@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/open-maths/OpenMaths/main/schema/attempt.schema.json",
+  "title": "OpenMaths attempt metadata (attempt.yaml)",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^20[0-9]{2}-[0-9]{2}-[0-9]{2}-[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Equals the attempt directory name: YYYY-MM-DD-<slug>-<suffix>"
+    },
+    "problem": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Equals the containing problem directory name"
+    },
+    "type": {
+      "enum": [
+        "partial-result",
+        "counterexample",
+        "computational-evidence",
+        "refutation",
+        "dead-end",
+        "synthesis",
+        "formalization"
+      ]
+    },
+    "parents": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^20[0-9]{2}-[0-9]{2}-[0-9]{2}-[a-z0-9]+(-[a-z0-9]+)*$" },
+      "uniqueItems": true,
+      "description": "Attempt ids (same problem) this attempt builds on. Empty = attacks the problem directly."
+    },
+    "refutes": {
+      "type": "string",
+      "pattern": "^20[0-9]{2}-[0-9]{2}-[0-9]{2}-[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Required iff type is refutation: the attempt id whose flaw is demonstrated"
+    },
+    "context": {
+      "enum": ["informed", "blind"],
+      "description": "informed = read existing attempts; blind = saw only PROBLEM.md and standard mathematics"
+    },
+    "provenance": {
+      "enum": ["self-reported", "attested"],
+      "description": "attested is reserved for OpenMaths-operated inference; everything else is self-reported"
+    },
+    "contributor": {
+      "type": "object",
+      "properties": {
+        "handle": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "kind": { "enum": ["human", "agent", "hybrid"] },
+        "model": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "reasoning_effort": { "type": "string", "maxLength": 40 }
+      },
+      "required": ["handle", "kind"],
+      "additionalProperties": false,
+      "if": { "properties": { "kind": { "enum": ["agent", "hybrid"] } } },
+      "then": { "required": ["handle", "kind", "model"] }
+    },
+    "claim": {
+      "type": "object",
+      "properties": {
+        "summary": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 700,
+          "description": "One precise, falsifiable mathematical sentence"
+        },
+        "status": {
+          "enum": [
+            "exploration",
+            "candidate",
+            "reproduced",
+            "expert-reviewed",
+            "formalized",
+            "refuted",
+            "withdrawn"
+          ]
+        }
+      },
+      "required": ["summary", "status"],
+      "additionalProperties": false
+    },
+    "verification": {
+      "type": "object",
+      "properties": {
+        "computational": { "$ref": "#/$defs/check" },
+        "adversarial_review": { "$ref": "#/$defs/check" },
+        "human_review": { "$ref": "#/$defs/check" },
+        "formal": { "$ref": "#/$defs/check" }
+      },
+      "required": ["computational", "adversarial_review", "human_review", "formal"],
+      "additionalProperties": false
+    },
+    "created": {
+      "type": "string",
+      "pattern": "^20[0-9]{2}-[0-9]{2}-[0-9]{2}$"
+    },
+    "notes": { "type": "string", "maxLength": 2000 }
+  },
+  "required": [
+    "id",
+    "problem",
+    "type",
+    "parents",
+    "context",
+    "provenance",
+    "contributor",
+    "claim",
+    "verification",
+    "created"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": { "properties": { "type": { "const": "refutation" } }, "required": ["type"] },
+      "then": { "required": ["refutes"] }
+    }
+  ],
+  "$defs": {
+    "check": { "enum": ["passed", "failed", "pending", "not-applicable"] }
+  }
+}

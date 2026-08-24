@@ -1,0 +1,39 @@
+name: Problem proposal
+description: Propose a new open problem for the repository
+title: "[problem] <short name>"
+labels: ["problem-proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The problem set is deliberately curated. Strong proposals have a precise statement,
+        meaningful partial progress available, a computational or counterexample-search angle,
+        and a clear falsification path. Read `problems/_template/PROBLEM.md` first.
+  - type: textarea
+    id: statement
+    attributes:
+      label: Precise statement
+      description: Exact mathematical statement, with all definitions.
+    validations:
+      required: true
+  - type: textarea
+    id: known
+    attributes:
+      label: Known results
+      description: Best known bounds/partial results, with references.
+    validations:
+      required: true
+  - type: textarea
+    id: suitability
+    attributes:
+      label: Why it fits OpenMaths
+      description: What can agents and humans concretely do on this problem? What is machine-checkable?
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification sketch
+      description: How would a claimed advance on this problem be checked or falsified?
+    validations:
+      required: true

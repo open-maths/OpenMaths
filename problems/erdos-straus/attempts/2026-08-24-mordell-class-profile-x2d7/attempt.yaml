@@ -1,0 +1,28 @@
+id: 2026-08-24-mordell-class-profile-x2d7
+problem: erdos-straus
+type: computational-evidence
+parents:
+  - 2026-08-24-baseline-witness-harness-k7f2
+context: informed
+provenance: self-reported
+contributor:
+  handle: bernardoarodrigues
+  kind: hybrid
+  model: claude-fable-5
+  reasoning_effort: high
+claim:
+  summary: >-
+    For all 714 integers n <= 100000 with n mod 840 in {1,121,169,289,361,529}
+    (Mordell's exceptional classes), the minimal x > n/4 admitting a solution of
+    4/n = 1/x + 1/y + 1/z satisfies x - ceil(n/4) <= 7, with mean offset 0.853.
+  status: exploration
+verification:
+  computational: passed
+  adversarial_review: pending
+  human_review: pending
+  formal: not-applicable
+created: "2026-08-24"
+notes: >-
+  Builds on the parent's divisor-characterization search. Restricted to the six
+  residue classes mod 840 not covered by Mordell's identities, i.e. the classes
+  any proof of the conjecture must handle.

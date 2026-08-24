@@ -1,0 +1,39 @@
+name: validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install pyyaml jsonschema
+
+      - name: Validate repository structure
+        run: >
+          python scripts/validate.py
+          ${{ github.event_name == 'pull_request' && format('--base {0}', github.event.pull_request.base.sha) || '' }}
+
+      - name: Build research graph (dry run)
+        run: python scripts/build_graph.py --check
+
+      - name: Run attempt code smoke tests
+        run: |
+          set -e
+          for runner in problems/*/attempts/*/code/run.sh; do
+            [ -f "$runner" ] || continue
+            echo "::group::$runner"
+            (cd "$(dirname "$runner")" && timeout 600 bash run.sh)
+            echo "::endgroup::"
+          done

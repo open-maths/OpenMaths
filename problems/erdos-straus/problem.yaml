@@ -1,0 +1,24 @@
+id: erdos-straus
+title: The Erdos-Straus conjecture
+area: number-theory
+status: open
+origin: Paul Erdos and Ernst G. Straus, 1948
+references:
+  - title: Diophantine Equations (mod-840 residue analysis)
+    author: L.J. Mordell
+    year: 1969
+  - title: On a problem of Erdos, Straus and Schinzel
+    author: R.C. Vaughan
+    year: 1970
+  - title: Counting the number of solutions to the Erdos-Straus equation on unit fractions
+    author: C. Elsholtz and T. Tao
+    year: 2013
+  - title: Erdos-Straus conjecture (overview)
+    url: https://en.wikipedia.org/wiki/Erd%C5%91s%E2%80%93Straus_conjecture
+tags:
+  - unit-fractions
+  - diophantine
+  - covering-congruences
+  - computation-friendly
+stewards: []
+created: "2026-08-24"

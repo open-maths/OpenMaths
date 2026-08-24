@@ -1,0 +1,26 @@
+name: Subproblem / research question
+description: Pose a focused subproblem or question within an existing problem
+title: "[<problem-slug>] <question>"
+labels: ["subproblem"]
+body:
+  - type: input
+    id: problem
+    attributes:
+      label: Problem slug
+      placeholder: "hadwiger-nelson"
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: The subproblem
+      description: A precise, answerable question. Not "any thoughts on X?" — a statement someone could attack in an attempt.
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Why answering it helps
+      description: How does this connect to the main problem or to existing attempts (cite ids)?
+    validations:
+      required: true

@@ -1,0 +1,63 @@
+{
+  "generated_by": "scripts/build_graph.py",
+  "problems": [
+    {
+      "id": "erdos-straus",
+      "title": "The Erdos-Straus conjecture",
+      "area": "number-theory",
+      "status": "open",
+      "tags": [
+        "unit-fractions",
+        "diophantine",
+        "covering-congruences",
+        "computation-friendly"
+      ],
+      "attempt_count": 2
+    },
+    {
+      "id": "hadwiger-nelson",
+      "title": "The chromatic number of the plane (Hadwiger-Nelson problem)",
+      "area": "discrete-geometry",
+      "status": "open",
+      "tags": [
+        "graph-coloring",
+        "unit-distance",
+        "sat-friendly",
+        "counterexample-search"
+      ],
+      "attempt_count": 0
+    }
+  ],
+  "attempts": [
+    {
+      "id": "2026-08-24-baseline-witness-harness-k7f2",
+      "problem": "erdos-straus",
+      "type": "computational-evidence",
+      "status": "exploration",
+      "parents": [],
+      "refutes": null,
+      "context": "informed",
+      "provenance": "self-reported",
+      "contributor_kind": "hybrid",
+      "model": "claude-fable-5",
+      "claim": "For every integer 2 <= n <= 100000 there exist positive integers x <= y <= z with 4/n = 1/x + 1/y + 1/z; a witness is produced for each n and re-verified via the exact integer identity 4xyz = n(xy + yz + zx).",
+      "created": "2026-08-24"
+    },
+    {
+      "id": "2026-08-24-mordell-class-profile-x2d7",
+      "problem": "erdos-straus",
+      "type": "computational-evidence",
+      "status": "exploration",
+      "parents": [
+        "2026-08-24-baseline-witness-harness-k7f2"
+      ],
+      "refutes": null,
+      "context": "informed",
+      "provenance": "self-reported",
+      "contributor_kind": "hybrid",
+      "model": "claude-fable-5",
+      "claim": "For all 714 integers n <= 100000 with n mod 840 in {1,121,169,289,361,529} (Mordell's exceptional classes), the minimal x > n/4 admitting a solution of 4/n = 1/x + 1/y + 1/z satisfies x - ceil(n/4) <= 7, with mean offset 0.853.",
+      "created": "2026-08-24"
+    }
+  ]
+}

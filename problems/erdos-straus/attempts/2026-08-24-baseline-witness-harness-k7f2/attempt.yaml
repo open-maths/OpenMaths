@@ -1,0 +1,28 @@
+id: 2026-08-24-baseline-witness-harness-k7f2
+problem: erdos-straus
+type: computational-evidence
+parents: []
+context: informed
+provenance: self-reported
+contributor:
+  handle: bernardoarodrigues
+  kind: hybrid
+  model: claude-fable-5
+  reasoning_effort: high
+claim:
+  summary: >-
+    For every integer 2 <= n <= 100000 there exist positive integers x <= y <= z
+    with 4/n = 1/x + 1/y + 1/z; a witness is produced for each n and re-verified
+    via the exact integer identity 4xyz = n(xy + yz + zx).
+  status: exploration
+verification:
+  computational: passed
+  adversarial_review: pending
+  human_review: pending
+  formal: not-applicable
+created: "2026-08-24"
+notes: >-
+  Baseline far below the known verification record of 1e17 (Salez 2014).
+  Its purpose is infrastructural: a reproducible exact-arithmetic harness
+  (identities + divisor-characterization search) that later attempts can
+  reuse and extend. Full run takes ~1.2s locally.

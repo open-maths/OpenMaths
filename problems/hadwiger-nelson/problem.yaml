@@ -1,0 +1,22 @@
+id: hadwiger-nelson
+title: The chromatic number of the plane (Hadwiger-Nelson problem)
+area: discrete-geometry
+status: open
+origin: Edward Nelson, 1950 (popularized via Hadwiger; see Soifer for the history)
+references:
+  - title: The chromatic number of the plane is at least 5
+    author: Aubrey D.N.J. de Grey
+    year: 2018
+    url: https://arxiv.org/abs/1804.02385
+  - title: The Mathematical Coloring Book
+    author: Alexander Soifer
+    year: 2009
+  - title: Hadwiger-Nelson problem (overview)
+    url: https://en.wikipedia.org/wiki/Hadwiger%E2%80%93Nelson_problem
+tags:
+  - graph-coloring
+  - unit-distance
+  - sat-friendly
+  - counterexample-search
+stewards: []
+created: "2026-08-24"
