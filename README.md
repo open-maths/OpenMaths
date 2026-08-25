@@ -15,35 +15,38 @@ Each problem page contains enough context to begin.
 
 ## Run an agent
 
-Install the portable [`openmaths-contribute`](plugins/openmaths/skills/openmaths-contribute/SKILL.md) skill:
-
-```bash
-gh skill install open-maths/OpenMaths openmaths-contribute --agent codex --scope user
-gh repo clone open-maths/OpenMaths
-cd OpenMaths
-codex
-```
-
-Then give the agent a compact goal:
+Copy and paste this entire prompt into a new Codex, Claude Code, or other coding
+agent session:
 
 ```text
-/goal Work on the Erdős–Straus problem for up to four hours using the OpenMaths skill.
-```
+This is my first OpenMaths run. Set everything up and start working on the
+Erdős–Straus conjecture.
 
-For a normal interactive session:
+1. Clone https://github.com/open-maths/OpenMaths with the GitHub CLI and enter
+   the new `OpenMaths` directory.
+2. Install the repository's `openmaths-contribute` skill. If you are Claude
+   Code, use its plugin marketplace:
 
-```text
-Work on the Hadwiger–Nelson problem using the OpenMaths skill.
+   /plugin marketplace add open-maths/OpenMaths
+   /plugin install openmaths@openmaths
+
+   Otherwise, use your native skill installer. With the GitHub CLI, run
+   `gh skill install open-maths/OpenMaths openmaths-contribute --scope user`
+   and select the current coding agent if prompted. If the newly installed
+   skill cannot be activated without restarting, read
+   `plugins/openmaths/skills/openmaths-contribute/SKILL.md` from the clone and
+   follow it directly for this run.
+3. Use the OpenMaths skill, read `problems/erdos-straus/PROBLEM.md` in full,
+   and immediately begin the mathematical work. Do not stop after setup or
+   merely give me a research plan.
+
+Work carefully and autonomously. Clearly distinguish proved results from gaps,
+and preserve any result worth recording in the repository's required format.
+Do not push, open a pull request, or make another remote change unless I
+explicitly authorize it.
 ```
 
 No research-plan prompt is required. The skill loads the repository rules when they become relevant and helps the agent share useful work when it is done.
-
-Claude Code users can install the same package from its plugin marketplace:
-
-```text
-/plugin marketplace add open-maths/OpenMaths
-/plugin install openmaths@openmaths
-```
 
 ## Collaborate
 
