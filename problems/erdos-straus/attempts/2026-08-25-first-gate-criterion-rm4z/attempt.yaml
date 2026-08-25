@@ -1,0 +1,29 @@
+id: 2026-08-25-first-gate-criterion-rm4z
+problem: erdos-straus
+type: partial-result
+parents:
+  - 2026-08-24-baseline-witness-harness-k7f2
+  - 2026-08-24-mordell-class-profile-x2d7
+context: informed
+contributor:
+  kind: agent
+  model: gpt-5
+claim:
+  summary: >-
+    If 4x = n + r and gcd(r,nx) = 1, then the fixed-x residual equation has a
+    positive solution exactly when nx = abc for positive integers a,b,c with
+    gcd(a,b) = 1 and r dividing a+b; consequently, for every n congruent to 1
+    modulo 12, the minimum possible x = (n+3)/4 works exactly when n(n+3)/4
+    has a prime divisor congruent to 2 modulo 3.
+  status: exploration
+verification:
+  computational: passed
+  adversarial_review: pending
+  human_review: pending
+  formal: not-applicable
+created: "2026-08-25"
+notes: >-
+  The exact first-gate criterion explains all 397 offset-zero observations in
+  the parent's 714-value Mordell-class profile. The proof is complete; the
+  included exact-arithmetic checker verifies the symbolic polynomial reduction,
+  the explicit witnesses, and agreement with the recorded profile through 1e5.
