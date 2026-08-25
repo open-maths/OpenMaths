@@ -1,110 +1,59 @@
-# Research and Repository Workflow
+# OpenMaths Repository Reference
 
-Use this reference to navigate the research graph, choose a useful contribution, prepare mathematical work, or review an existing claim.
+Use this reference when repository structure or the attempt format matters. It is a map, not a required research sequence.
 
-## Repository Map
+## Files and Folders
 
-| Path | Role | How to use it |
-|---|---|---|
-| `README.md` | Project orientation | Learn the model, available problems, installation, and trust ladder. |
-| `AGENTS.md` | Attempt submission rules | Read in full before creating or publishing an attempt. |
-| `CONTRIBUTING.md` | Contribution paths | Decide between discussion, issue, attempt, review, or stewardship. |
-| `GOVERNANCE.md` | Trust and authority | Interpret statuses, evidence requirements, and steward actions. |
-| `problems/<slug>/PROBLEM.md` | Curated mathematical specification | Treat its statement, known results, traps, subproblems, and verification requirements as the problem contract. |
-| `problems/<slug>/problem.yaml` | Problem metadata | Read status, area, tags, references, and current stewards. |
-| `problems/<slug>/STATUS.md` | Generated frontier index | Use it to locate attempts and see the status summary; do not edit it. |
-| `problems/<slug>/attempts/<id>/` | Durable research node | Read metadata, writeup, and evidence together. |
-| `graph.json` | Generated machine index | Query attempt types, statuses, parents, refutations, and claims across problems. |
-| `schema/` | Machine-enforced metadata contracts | Consult when constructing or changing YAML metadata. |
-| `scripts/` | Validation and graph tooling | Run locally; distinguish structural checks from mathematical verification. |
-| `.github/` | Collaboration and automation | Read issue forms, PR template, and CI behavior. |
+| Path | Purpose |
+|---|---|
+| `problems/<slug>/PROBLEM.md` | Mathematical statement, known results, warnings, and verification requirements. |
+| `problems/<slug>/problem.yaml` | Problem metadata. |
+| `problems/<slug>/STATUS.md` | Generated index of recorded attempts and statuses. |
+| `problems/<slug>/attempts/<id>/` | Immutable mathematical contribution. |
+| `graph.json` | Generated machine-readable index of problems, attempts, parents, and refutations. |
+| `schema/` | Metadata contracts enforced by CI. |
+| `scripts/validate.py` | Repository and contribution-scope validator. |
+| `scripts/run_attempt_checks.py` | Runs attempt verification entrypoints. |
+| `AGENTS.md` | Authoritative attempt submission rules. |
+| `GOVERNANCE.md` | Claim-status and steward rules. |
 
-The files record mathematics; Git records revisions; `parents` and `refutes` record mathematical relationships. Do not infer research ancestry from commit or branch history.
+Only `PROBLEM.md` is required to begin mathematical work. `STATUS.md` and `graph.json` are convenient indexes. Read an attempt's `attempt.yaml`, `WRITEUP.md`, and artifacts when using, extending, reproducing, reviewing, or refuting it. Search broader history only to the extent needed for the claim being made.
 
-## Read the Research Frontier
+Git history records file revisions. Mathematical ancestry is expressed by `parents` and `refutes` in attempt metadata.
 
-1. Read the chosen `PROBLEM.md` completely. Extract the exact statement, recognized progress, strongest baseline, explicit non-results, useful subproblems, and verification standard.
-2. Read `STATUS.md` as an index. Use `graph.json` and `attempt.yaml` files to identify parent chains, refutations, dead ends, syntheses, and claims near the proposed direction.
-3. Read the relevant `WRITEUP.md` files and their code or formal artifacts. Metadata summarizes a claim; it does not replace the argument.
-4. Search repository text for the central objects, lemmas, residue classes, constructions, or algorithms. This catches related work whose title or type is not obvious.
-5. Inspect relevant Discussions, issues, and open or closed PRs for unmerged ideas, objections, and coordination. Treat them as context until incorporated into the research record.
-6. Verify external references before relying on them. Cite the theorem or result actually used, not a nearby survey claim.
+## Contribution Types
 
-Useful local queries:
+| Type | Use |
+|---|---|
+| `partial-result` | Proved lemma, reduction, bound, or structural result. |
+| `counterexample` | Explicit falsifying object with exact verification. |
+| `computational-evidence` | Reproducible finite computation short of proof. |
+| `refutation` | A precise flaw in an existing attempt. |
+| `dead-end` | A rigorous obstruction to an approach. |
+| `synthesis` | Faithful organization of several attempts. |
+| `formalization` | Machine-checked statement or proof. |
 
-```bash
-rg -n "<term|lemma|construction>" problems graph.json
-find problems/<problem-slug>/attempts -name attempt.yaml -print
-python3 scripts/build_graph.py --check
-```
+Choose the type from what the work establishes. It is acceptable to do exploratory work without creating an attempt.
 
-## Choose the Right Mathematical Contribution
+## Attempt Essentials
 
-Select the type from the result in hand:
+The directory id has the form `YYYY-MM-DD-<short-slug>-<suffix>`. Its required files and metadata are specified in `AGENTS.md` and `schema/attempt.schema.json`.
 
-- Use `partial-result` for a proved lemma, reduction, bound, or structural statement—not an unfinished route toward one.
-- Use `computational-evidence` for a reproducible finite range or systematic experiment whose claim states its exact coverage.
-- Use `counterexample` for an explicit falsifying object with exact verification.
-- Use `refutation` when a precise step in a recorded attempt fails; set `refutes` and cite that attempt.
-- Use `dead-end` when the contribution is a rigorous obstruction explaining why an approach cannot work as tried.
-- Use `synthesis` to organize recorded attempts faithfully; include every synthesized attempt in `parents`.
-- Use `formalization` for a machine-checked artifact whose build entrypoint runs in CI.
+When relevant:
 
-If the work is still a question, strategy, or proposed direction, use a Discussion or focused issue instead of manufacturing an attempt claim.
+- list in `parents` only attempts the result actually uses;
+- set `refutes` for a refutation;
+- use `context: blind` when only the problem description was read, otherwise `informed`;
+- state the limits of any novelty search;
+- distinguish executable checks from prose arguments;
+- keep generated `STATUS.md` and `graph.json` out of the attempt PR.
 
-## Start a New Mathematical Attempt
-
-Read `AGENTS.md` for the required directory and fields. Then:
-
-1. Choose a descriptive attempt id with the current date and a collision-resistant suffix.
-2. Set `parents` to attempts whose results or methods the work actually uses. For a refutation, also set `refutes` to the challenged attempt.
-3. Write `claim.summary` after the mathematics is complete enough to know what was established. Make it a single falsifiable sentence with conditions and finite ranges included.
-4. In `Novelty`, compare against `PROBLEM.md`, parent attempts, relevant siblings, and known literature. Say plainly when the value is reproduction or infrastructure rather than a new theorem.
-5. In `Approach`, prove everything needed for the claim and label every unresolved step `GAP:`. Narrow the claim if a gap blocks it.
-6. Make verification adversarial: say what would falsify the claim, include exact checks, and make runners reproducible from their own directory.
-7. Keep metadata honest. `claim.status` starts at `exploration`; verification fields describe checks actually performed, not expected future success.
-
-For a suffix when one is needed:
-
-```bash
-python3 -c 'import secrets; print(secrets.token_hex(2))'
-```
-
-## Reproduce, Extend, or Refute Work
-
-- **Reproduce:** derive or verify the claim independently; explain what was independent and what artifacts were reused.
-- **Extend:** declare the source attempt in `parents`, state the additional conclusion precisely, and avoid re-claiming the parent's result as novelty.
-- **Refute:** identify the exact statement or proof step, show why it fails, and explain whether the main claim survives. Prefer a concrete counterexample to a vague objection.
-- **Repair:** preserve the flawed attempt and create a child attempt containing the corrected claim and proof. A repair does not erase the historical flaw.
-
-## Verify the Result
-
-Install the pinned development dependencies in an isolated environment, then run structural validation:
+Validate with:
 
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install -r requirements-dev.txt
 .venv/bin/python scripts/validate.py
-```
-
-Run the attempt's own entrypoint from its artifact directory:
-
-```bash
 (cd problems/<problem-slug>/attempts/<attempt-id>/code && bash run.sh)
-# or
-(cd problems/<problem-slug>/attempts/<attempt-id>/lean && bash run.sh)
+# or use lean/run.sh for a formalization
 ```
-
-A passing validator proves repository structure. A passing runner proves only the checks encoded by that runner. Neither establishes an unencoded mathematical argument.
-
-## Hand Off Clearly
-
-Report:
-
-- the selected problem and contribution path;
-- the exact claim, type, parents, and novelty;
-- known gaps, assumptions, and external dependencies;
-- verification commands and results;
-- the changed paths and current branch;
-- relevant Discussions, issues, or PRs;
-- any proposed external action still awaiting authorization.

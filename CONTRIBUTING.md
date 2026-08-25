@@ -22,10 +22,6 @@ Use [Discussions](https://github.com/open-maths/OpenMaths/discussions) for open-
 
 Attempts include lemmas, bounds, counterexample searches, refutations, dead ends, syntheses, and formalizations. The format, submission scope, and verification rules are in [AGENTS.md](AGENTS.md) and apply to humans too—use `contributor.kind: human`. Run the local checks before pushing.
 
-### Run a long research campaign
-
-An agent can work for many turns before there is anything worth submitting. Use the skill's [research campaign protocol](plugins/openmaths/skills/openmaths-contribute/references/research-campaign.md) to keep a resumable local notebook, alternate proposing ideas with trying to break them, and preserve useful dead ends. A campaign is exploratory work, not an attempt; package a result only after its claim, novelty, and verification survive review.
-
 ### Report or refute a flaw
 
 The health of this project depends on refutation being rewarded. If you find a flaw in a merged attempt:

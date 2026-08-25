@@ -1,73 +1,56 @@
 ---
 name: openmaths-contribute
-description: Participate in mathematical collaboration in the open-maths/OpenMaths research repository. Use when exploring its problems, running a long autonomous research campaign, reading research Discussions, issues, attempts, or pull requests, doing or reviewing mathematics, proposing subproblems, preparing attempts, or using Git and GitHub CLI for those workflows; do not use for unrelated mathematics, generic GitHub work, or repository development and maintenance.
+description: Work on mathematical problems and contribute results in the open-maths/OpenMaths repository. Use for understanding its problem format, locating research artifacts, preparing or reviewing attempts, and using Git or GitHub for OpenMaths collaboration; do not use for repository development or unrelated GitHub work.
 license: Apache-2.0
 ---
 
-# Collaborate on OpenMaths Research
+# Work on OpenMaths
 
-Help the user understand and improve a shared mathematical research graph. Repository files hold the durable research record; GitHub hosts coordination and review. Treat newer repository instructions as authoritative over this packaged skill.
+OpenMaths is a repository of mathematical problem descriptions and independently contributed attempts. Help the user work on the mathematics using whatever approach is appropriate. The repository defines how durable results are recorded; it does not prescribe a research method.
 
-## Establish Project Context
+## Begin with the Problem
 
-- Reuse an appropriate checkout when one exists. Inspect its branch, remotes, and worktree before changing anything; preserve unrelated work.
-- If no checkout exists, clone `open-maths/OpenMaths`. A fork, branch push, issue, discussion reply, or pull request changes external state and requires user authorization.
-- Read `README.md` for orientation and `CONTRIBUTING.md` for mathematical contribution paths. Read `AGENTS.md` completely before preparing an attempt and `GOVERNANCE.md` before reviewing status evidence or proposing a promotion.
-- Read [references/research-workflow.md](references/research-workflow.md) when exploring a problem, doing mathematics, preparing an attempt, reproducing work, or reviewing a claim.
-- Read [references/research-campaign.md](references/research-campaign.md) before starting or resuming a multi-turn autonomous research campaign.
-- Read [references/github-workflow.md](references/github-workflow.md) when inspecting community activity or working with Discussions, issues, branches, commits, forks, or pull requests.
+- Reuse a suitable checkout, or clone `open-maths/OpenMaths` if local files or verification are needed.
+- Read the selected `problems/<slug>/PROBLEM.md` in full. That is sufficient to begin work.
+- Use `STATUS.md`, existing attempts, `graph.json`, literature, Discussions, issues, or pull requests when they are relevant to the task. Do not load them by default.
+- Read [references/research-workflow.md](references/research-workflow.md) when repository paths, attempt types, relationships, or validation details are needed.
+- Read [references/github-workflow.md](references/github-workflow.md) only when GitHub context, branches, commits, issues, Discussions, or pull requests are involved.
 
-## Understand the Three Layers
+## Collaborate Freely
 
-- **Research record:** `PROBLEM.md`, attempts, metadata, verification artifacts, and the generated graph. This is the mathematical source of truth.
-- **Coordination:** Discussions hold early questions and strategy; issues hold focused proposals, subproblems, flaw reports, and steward applications.
-- **Change review:** branches and pull requests propose changes. Git branch topology does not define mathematical ancestry—attempt `parents` and `refutes` do.
+Solving a problem independently is only one form of contribution. Depending on the work, help the user or agent:
 
-## Choose a Contribution Path
+- explore the mathematics without first surveying the whole repository;
+- join or start a Discussion about an idea, question, or competing approach;
+- use an issue for a focused subproblem, flaw report, or problem proposal;
+- review, reproduce, extend, synthesize, or refute existing work; or
+- preserve a durable result as an attempt.
 
-| Goal | Use | Read next |
-|---|---|---|
-| Understand the frontier or choose research | Repository files plus community context | `research-workflow.md`, then relevant parts of `github-workflow.md` |
-| Work autonomously on one problem for many turns | Research campaign with a durable local notebook | `research-campaign.md`, then the other references as needed |
-| Ask an open question or coordinate a direction | Discussion | `github-workflow.md` |
-| Track a focused subproblem, flaw, problem proposal, or steward application | Issue form | `github-workflow.md` |
-| Record a mathematical result, reproduction, refutation, synthesis, or dead end | Attempt PR | Both references and `AGENTS.md` |
-| Change the status of a recorded claim | Steward PR | `GOVERNANCE.md` and `github-workflow.md` |
-| Review unmerged work | Pull request | Both references |
-| Challenge a merged claim | Flaw issue or refutation attempt | Both references |
+Choose the surface that fits the contribution. Do not force early exploration into an attempt, and do not require a prescribed reading or research sequence.
 
-## Explore a Problem
+## Share Useful Work Before Finishing
 
-Start with the problem specification, especially what counts as progress, known results, traps, useful subproblems, and verification requirements. Use `STATUS.md` and `graph.json` as indexes, then read the underlying attempt metadata, writeups, and artifacts. Search relevant Discussions, issues, and pull requests for community context that has not entered the durable record.
+Do not leave a recordable mathematical result only in the chat. When the work produces a rigorous partial result, counterexample, reproducible computation, refutation, informative dead end, synthesis, or formalization, the default completion path is to create and validate an attempt. Inspect the final diff and, when GitHub publication is already authorized, commit, push, and open the attempt pull request before finishing the task.
 
-Let the user choose among materially different problems or research directions. If asked to recommend one, compare concrete open subproblems, required expertise, available verification, existing dead ends, and likely novelty.
+If the work is useful but not attempt-ready, turn it into a concise proposed Discussion post or issue when that would advance collaboration. Do not manufacture a contribution from inconclusive scratch work.
 
-## Run an Autonomous Research Campaign
+Before creating an attempt, read `AGENTS.md`; it is authoritative. Preserve these essentials:
 
-Use a persistent harness goal when the user wants the agent to keep working without step-by-step prompting. Agree on or infer a bounded target, budget, acceptable outcomes, verification standard, and stopping conditions. Keep resumable scratch notes under `.openmaths-work/<problem-slug>/`; this ignored workspace is not an attempt and must not leak into a PR.
+- An attempt PR contains one new attempt directory and nothing outside it.
+- Never edit a merged attempt. Extend it through `parents`, or challenge it with a refutation attempt or flaw issue.
+- New attempts start with `claim.status: exploration`.
+- State a precise, falsifiable claim and mark every known gap.
+- Report contributor provenance and research context honestly.
+- Cite the theorems and attempts actually used.
+- Use exact or verified interval arithmetic for numerical claims.
+- Include reproducible code or formal artifacts when the contribution type requires them.
 
-Run a research loop that alternates construction and adversarial attack. Preserve failed approaches and exact obstructions, compare every surviving result with the recorded frontier, and checkpoint before context compaction or a change of direction. Do not manufacture an attempt merely because the run is ending. Package only the strongest durable outcome, and keep publication as a separate user-authorized action.
+Run `python3 scripts/validate.py` and the attempt's `code/run.sh` or `lean/run.sh`, when present. These checks establish structure and encoded computations, not mathematical truth.
 
-## Start a New Mathematical Attempt
+If GitHub publication is not authorized, leave the local attempt or proposed post ready and ask before changing remote state.
 
-Follow `AGENTS.md` for format and PR scope. Base the contribution type on what was actually established—not what the approach hoped to prove. State a falsifiable claim, cite dependencies and parent attempts, mark gaps, report provenance honestly, and use exact or verified arithmetic where required.
+## Use GitHub
 
-Prefer extending, reproducing, synthesizing, or refuting recorded work when that advances the frontier more clearly than beginning from scratch. Do not edit a merged attempt to repair it; create a new node that makes the relationship explicit.
+Repository files are the durable mathematical record. Discussions are informal collaboration; issues track focused questions or flaws; pull requests review proposed records and status changes. Use whichever surface helps the task.
 
-## Read or Join a Discussion
-
-Read the opening post and the full relevant thread before summarizing or responding. Trace mathematical claims back to repository artifacts or external references. Treat promising discussion content as leads, not established results. Use a specific title such as `[problem-slug] <research question or proposed direction>` when starting a research discussion.
-
-Move durable mathematical outcomes into the appropriate repository form: an attempt for research work or a focused issue for an actionable question or flaw. Post or reply only when the user asks.
-
-## Review or Challenge Existing Work
-
-Identify whether the target is an open PR, a merged attempt, or an informal claim; each has a different record and response path. Check the precise claim against `PROBLEM.md`, declared dependencies, parent attempts, code or formal artifacts, and the stated verification method. Separate a reproducibility failure, a proof gap, a false claim, and a novelty problem.
-
-Review an open contribution on its PR. For a merged attempt, use a flaw-report issue for a concise diagnosis or a refutation attempt for a durable mathematical result. Never equate passing CI or being merged with mathematical correctness.
-
-## Validate and Hand Off
-
-Run the checks appropriate to the mathematical work. For an attempt, run the repository validator and its own verification entrypoint. For review or reproduction, rerun the relevant artifacts and state which parts of the argument remain outside executable verification.
-
-Before any authorized publication, inspect the final diff and staged paths. Report the contribution path, mathematical claim or review outcome, evidence run, unresolved gaps, affected files, and any external actions still requiring approval.
+Read-only inspection does not require publication permission. A fork, push, issue, Discussion post, review, or pull request changes external state; perform it only when the user authorizes it. Do not merge or promote a claim without explicit authority and the evidence required by `GOVERNANCE.md`.

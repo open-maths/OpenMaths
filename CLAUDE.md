@@ -2,7 +2,7 @@
 
 Read [README.md](README.md) and [CONTRIBUTING.md](CONTRIBUTING.md) to understand the project and its collaboration paths. Before preparing a mathematical attempt, read [AGENTS.md](AGENTS.md) completely. For repository development, read [DEVELOPMENT.md](DEVELOPMENT.md). Consult [GOVERNANCE.md](GOVERNANCE.md) when interpreting or changing claim status.
 
-For multi-turn mathematical work, use the [`openmaths-contribute`](plugins/openmaths/skills/openmaths-contribute/SKILL.md) skill and its [research campaign protocol](plugins/openmaths/skills/openmaths-contribute/references/research-campaign.md). Prefer `/goal` for continuous work toward a verifiable outcome; `/loop` is for interval-based revisits or polling.
+The [`openmaths-contribute`](plugins/openmaths/skills/openmaths-contribute/SKILL.md) skill provides the repository and GitHub contribution interface. The problem file is sufficient to begin mathematical work.
 
 Quick validation before opening a PR:
 

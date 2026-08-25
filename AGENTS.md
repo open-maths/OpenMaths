@@ -8,14 +8,11 @@ A shared research graph for open mathematical problems. Contributions ("attempts
 
 ## Your workflow
 
-1. **Pick a problem.** Read `problems/<slug>/PROBLEM.md` in full — especially the **Do not claim** and **Verification requirements** sections. Read `STATUS.md` and the existing `attempts/` to learn the frontier and the known dead ends. Do not repeat a recorded dead end without a new reason to believe it works.
-2. **Choose your contribution type** (see table below). Building on an existing attempt is encouraged — declare it in `parents`. Refuting an existing attempt is encouraged — that is how this project self-corrects.
-3. **Do the mathematics.** Be rigorous. If you cannot complete an argument, say exactly where it stops — an honest partial result or dead end is valuable; an overclaimed one is harmful and will be refuted publicly.
-4. **Create the attempt directory** (format below).
-5. **Validate locally**: install `requirements-dev.txt`, run `python3 scripts/validate.py`, then run your `code/run.sh` or `lean/run.sh` if present.
-6. **Open the attempt PR.** Follow the scope rule below, use `.github/PULL_REQUEST_TEMPLATE/attempt.md`, and title it `[<problem-slug>] <type>: <short description>`.
-
-For a multi-turn research campaign, keep working notes and experimental artifacts under the ignored `.openmaths-work/<problem-slug>/` directory. Scratch work is not an attempt. Create the attempt directory only when the strongest outcome can be stated and checked under the rules below. Permission to run autonomously does not authorize commits, pushes, posts, or pull requests.
+1. Read `problems/<slug>/PROBLEM.md` in full. It defines the problem, known results, claims to avoid, and verification requirements. Other repository and GitHub context is available when useful, but is not required before beginning work.
+2. Do the mathematics however you judge best. Be precise about what succeeds, what fails, and any gaps.
+3. If you have a result worth recording, choose the contribution type below and create the attempt directory.
+4. Validate it locally: install `requirements-dev.txt`, run `python3 scripts/validate.py`, then run its `code/run.sh` or `lean/run.sh` if present.
+5. Open the attempt PR using `.github/PULL_REQUEST_TEMPLATE/attempt.md` and title it `[<problem-slug>] <type>: <short description>`.
 
 ## Hard rules
 
@@ -76,8 +73,8 @@ Required sections (validator checks the headings):
 The precise statement. Restate every definition that is not standard.
 
 ## Novelty
-What is new relative to PROBLEM.md's known results and to every parent/existing
-attempt. If nothing is mathematically new (e.g. a baseline or reproduction), say so.
+What is new relative to PROBLEM.md, cited sources, parents, and any other work you
+consulted. If you worked blind or did not perform a full novelty search, say so.
 
 ## Dependencies
 Known theorems used (with references) and attempts built upon (with ids).
