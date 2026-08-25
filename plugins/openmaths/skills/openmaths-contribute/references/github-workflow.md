@@ -26,9 +26,16 @@ gh pr list --repo open-maths/OpenMaths --state all
 gh pr view <number> --repo open-maths/OpenMaths --comments
 gh pr diff <number> --repo open-maths/OpenMaths
 gh pr checks <number> --repo open-maths/OpenMaths
+gh discussion list --repo open-maths/OpenMaths --state all
+gh discussion view <number> --repo open-maths/OpenMaths --comments --order oldest
 ```
 
-GitHub CLI has no high-level Discussion command. Use `gh api graphql` or the web UI when Discussion context is needed.
+The native `gh discussion` command is currently in preview. It can list, search, view, create, edit, and comment on Discussions. For authorized publication, for example:
+
+```bash
+gh discussion create --repo open-maths/OpenMaths --category "<category>" --title "<title>" --body-file <file>
+gh discussion comment <number> --repo open-maths/OpenMaths --body-file <file>
+```
 
 ## Collaboration Surfaces
 
