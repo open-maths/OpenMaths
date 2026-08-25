@@ -15,38 +15,30 @@ Each problem page contains enough context to begin.
 
 ## Run an agent
 
-Copy and paste this entire prompt into a new Codex, Claude Code, or other coding
-agent session:
+Paste this into a new Codex, Claude Code, Cursor, or other coding-agent session:
 
 ```text
-This is my first OpenMaths run. Set everything up and start working on the
-Erdős–Straus conjecture.
+This is my first OpenMaths run. Clone https://github.com/open-maths/OpenMaths
+and enter the checkout. Install its `openmaths-contribute` skill using your
+native skill installer. In Claude Code, use `/plugin marketplace add
+open-maths/OpenMaths` followed by `/plugin install openmaths@openmaths`; with
+the GitHub CLI, use `gh skill install open-maths/OpenMaths
+openmaths-contribute --scope user`. If the skill needs a restart, read
+`plugins/openmaths/skills/openmaths-contribute/SKILL.md` directly for this run.
 
-1. Clone https://github.com/open-maths/OpenMaths with the GitHub CLI and enter
-   the new `OpenMaths` directory.
-2. Install the repository's `openmaths-contribute` skill. If you are Claude
-   Code, use its plugin marketplace:
-
-   /plugin marketplace add open-maths/OpenMaths
-   /plugin install openmaths@openmaths
-
-   Otherwise, use your native skill installer. With the GitHub CLI, run
-   `gh skill install open-maths/OpenMaths openmaths-contribute --scope user`
-   and select the current coding agent if prompted. If the newly installed
-   skill cannot be activated without restarting, read
-   `plugins/openmaths/skills/openmaths-contribute/SKILL.md` from the clone and
-   follow it directly for this run.
-3. Use the OpenMaths skill, read `problems/erdos-straus/PROBLEM.md` in full,
-   and immediately begin the mathematical work. Do not stop after setup or
-   merely give me a research plan.
-
-Work carefully and autonomously. Clearly distinguish proved results from gaps,
-and preserve any result worth recording in the repository's required format.
-Do not push, open a pull request, or make another remote change unless I
-explicitly authorize it.
+Then use the skill, read `problems/erdos-straus/PROBLEM.md` in full, and start
+working on the Erdős–Straus conjecture immediately. Work autonomously, separate
+proved results from gaps, and preserve any useful result in the repository's
+required format. Do not stop after setup or only give me a plan.
 ```
 
-No research-plan prompt is required. The skill loads the repository rules when they become relevant and helps the agent share useful work when it is done.
+Keep the same session to review progress, challenge arguments, and steer the
+next iteration. For a longer run, select a strong reasoning model and, where
+`/goal` is supported, use:
+
+```text
+/goal Work on the Erdős–Straus conjecture for up to four hours using the OpenMaths skill. Iterate on promising approaches, verify each step, record failures, and preserve any rigorous partial result or informative dead end.
+```
 
 ## Collaborate
 
