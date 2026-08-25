@@ -12,6 +12,7 @@ Exit code 0 = valid, 1 = violations found (all are printed).
 """
 
 import argparse
+import json
 import re
 import subprocess
 import sys
@@ -26,9 +27,19 @@ SCHEMA_DIR = ROOT / "schema"
 SLUG_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 ATTEMPT_ID_RE = re.compile(r"^20\d{2}-\d{2}-\d{2}-[a-z0-9]+(-[a-z0-9]+)*$")
 
-WRITEUP_REQUIRED_HEADINGS = ["## Claim", "## Novelty", "## Verification"]
+WRITEUP_REQUIRED_HEADINGS = [
+    "## Claim",
+    "## Novelty",
+    "## Dependencies",
+    "## Approach",
+    "## Verification",
+    "## Open questions",
+]
 PROBLEM_REQUIRED_HEADINGS = ["## Statement", "## Do not claim", "## Verification requirements"]
 CODE_REQUIRED_TYPES = {"counterexample", "computational-evidence"}
+ATTEMPT_PATH_RE = re.compile(r"^(problems/[^/]+/attempts/[^/]+)/(.*)$")
+SKILL_NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+PLUGIN_NAME_RE = re.compile(r"^[a-z0-9](?:[a-z0-9.-]{0,62}[a-z0-9])?$")
 
 
 class StrDateLoader(yaml.SafeLoader):
@@ -57,10 +68,17 @@ def load_yaml(path: Path):
 
 
 def load_schema(name: str) -> Draft202012Validator:
-    import json
-
     with (SCHEMA_DIR / name).open() as fh:
         return Draft202012Validator(json.load(fh))
+
+
+def load_json(path: Path):
+    try:
+        with path.open() as fh:
+            return json.load(fh)
+    except (json.JSONDecodeError, OSError) as exc:
+        err(f"{path.relative_to(ROOT)}: JSON parse error: {exc}")
+        return None
 
 
 def schema_check(validator: Draft202012Validator, data, path: Path) -> None:
@@ -139,10 +157,14 @@ def validate_attempt(attempt_dir: Path, problem_slug: str, attempt_schema):
         code_dir = attempt_dir / "code"
         if not code_dir.is_dir() or not any(code_dir.iterdir()):
             err(f"{rel}: type '{meta.get('type')}' requires a non-empty code/ directory")
+        elif not (code_dir / "run.sh").is_file():
+            err(f"{rel}: type '{meta.get('type')}' requires code/run.sh")
 
     lean_dir = attempt_dir / "lean"
     if meta.get("type") == "formalization" and not (lean_dir.is_dir() and any(lean_dir.iterdir())):
         err(f"{rel}: type 'formalization' requires a non-empty lean/ directory")
+    elif meta.get("type") == "formalization" and not (lean_dir / "run.sh").is_file():
+        err(f"{rel}: type 'formalization' requires lean/run.sh")
 
     return meta
 
@@ -190,11 +212,110 @@ def check_global_uniqueness() -> None:
             seen[aid] = str(attempt_yaml.parent.relative_to(ROOT))
 
 
+def skill_paths() -> list[Path]:
+    paths = set(ROOT.glob("skills/*/SKILL.md"))
+    paths.update(ROOT.glob("plugins/*/skills/*/SKILL.md"))
+    return sorted(paths)
+
+
+def validate_skills() -> None:
+    for skill_md in skill_paths():
+        rel = skill_md.relative_to(ROOT)
+        text = skill_md.read_text(encoding="utf-8")
+        match = re.match(r"^---\n(.*?)\n---(?:\n|$)", text, flags=re.DOTALL)
+        if not match:
+            err(f"{rel}: missing or invalid YAML frontmatter")
+            continue
+        try:
+            meta = yaml.safe_load(match.group(1))
+        except yaml.YAMLError as exc:
+            err(f"{rel}: YAML frontmatter parse error: {exc}")
+            continue
+        if not isinstance(meta, dict):
+            err(f"{rel}: frontmatter must be an object")
+            continue
+        name = meta.get("name")
+        description = meta.get("description")
+        if name != skill_md.parent.name:
+            err(f"{rel}: name '{name}' != directory name '{skill_md.parent.name}'")
+        if not isinstance(name, str) or not SKILL_NAME_RE.fullmatch(name):
+            err(f"{rel}: name must use lowercase letters, digits, and single hyphens")
+        if not isinstance(description, str) or not description.strip():
+            err(f"{rel}: description must be a non-empty string")
+        if "[TODO:" in text:
+            err(f"{rel}: unfinished TODO placeholder")
+
+
+def validate_plugin_distribution() -> None:
+    portable_plugins: dict[Path, dict] = {}
+    expected_schema = "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
+    for manifest in sorted(ROOT.glob("plugins/*/plugin.json")):
+        data = load_json(manifest)
+        if not isinstance(data, dict):
+            continue
+        portable_plugins[manifest.parent] = data
+        rel = manifest.relative_to(ROOT)
+        if data.get("$schema") != expected_schema:
+            err(f"{rel}: $schema must be '{expected_schema}'")
+        name = data.get("name")
+        if (
+            not isinstance(name, str)
+            or not PLUGIN_NAME_RE.fullmatch(name)
+            or "--" in name
+            or ".." in name
+        ):
+            err(f"{rel}: invalid plugin name '{name}'")
+        if not isinstance(data.get("description"), str) or not data["description"].strip():
+            err(f"{rel}: description must be a non-empty string")
+
+        claude_manifest = manifest.parent / ".claude-plugin" / "plugin.json"
+        if claude_manifest.is_file():
+            claude = load_json(claude_manifest)
+            if isinstance(claude, dict):
+                for field in ("name", "version"):
+                    if claude.get(field) != data.get(field):
+                        err(
+                            f"{claude_manifest.relative_to(ROOT)}: {field} must match "
+                            f"{rel}"
+                        )
+
+    marketplace_path = ROOT / ".claude-plugin" / "marketplace.json"
+    if not marketplace_path.is_file():
+        return
+    marketplace = load_json(marketplace_path)
+    if not isinstance(marketplace, dict):
+        return
+    if not isinstance(marketplace.get("name"), str) or not marketplace["name"].strip():
+        err(f"{marketplace_path.relative_to(ROOT)}: name must be a non-empty string")
+    entries = marketplace.get("plugins")
+    if not isinstance(entries, list) or not entries:
+        err(f"{marketplace_path.relative_to(ROOT)}: plugins must be a non-empty array")
+        return
+    for index, entry in enumerate(entries):
+        if not isinstance(entry, dict) or not isinstance(entry.get("source"), str):
+            err(f"{marketplace_path.relative_to(ROOT)}: plugins/{index} needs a string source")
+            continue
+        source = entry["source"]
+        if not source.startswith("./"):
+            continue
+        plugin_dir = (ROOT / source[2:]).resolve()
+        try:
+            plugin_dir.relative_to(ROOT)
+        except ValueError:
+            err(f"{marketplace_path.relative_to(ROOT)}: plugins/{index} escapes the repository")
+            continue
+        portable = portable_plugins.get(plugin_dir)
+        if portable is None:
+            err(f"{marketplace_path.relative_to(ROOT)}: plugins/{index} source has no plugin.json")
+        elif entry.get("name") != portable.get("name"):
+            err(f"{marketplace_path.relative_to(ROOT)}: plugins/{index} name must match plugin.json")
+
+
 def check_scope(base: str) -> None:
-    """PR scope: existing attempts are append-only except their attempt.yaml (steward metadata edits)."""
+    """Classify and enforce attempt, steward, and project PR scope."""
     try:
         diff = subprocess.run(
-            ["git", "diff", "--name-status", f"{base}...HEAD"],
+            ["git", "diff", "--name-status", "--find-renames", f"{base}...HEAD"],
             cwd=ROOT,
             capture_output=True,
             text=True,
@@ -204,21 +325,60 @@ def check_scope(base: str) -> None:
         err(f"scope check failed to run git diff against base '{base}': {exc.stderr.strip()}")
         return
 
-    attempt_file_re = re.compile(r"^problems/[^/]+/attempts/[^/]+/(.+)$")
+    changes: list[tuple[str, list[str]]] = []
     for line in diff.splitlines():
         parts = line.split("\t")
         if len(parts) < 2:
             continue
-        status, path = parts[0], parts[-1]
-        m = attempt_file_re.match(path)
-        if not m:
-            continue
-        inner = m.group(1)
-        if status.startswith(("M", "D")) and inner != "attempt.yaml":
+        changes.append((parts[0], parts[1:]))
+
+    attempt_changes: list[tuple[str, str, str, str]] = []
+    for status, paths in changes:
+        for path in paths:
+            match = ATTEMPT_PATH_RE.match(path)
+            if match:
+                attempt_changes.append((status, path, match.group(1), match.group(2)))
+    if not attempt_changes:
+        return
+
+    def existed_at_base(root: str) -> bool:
+        result = subprocess.run(
+            ["git", "cat-file", "-e", f"{base}:{root}/attempt.yaml"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+        )
+        return result.returncode == 0
+
+    roots = {root for _, _, root, _ in attempt_changes}
+    new_roots = {root for root in roots if not existed_at_base(root)}
+
+    if new_roots:
+        if len(new_roots) != 1:
+            err(f"PR adds {len(new_roots)} attempt directories; an attempt PR may add one")
+            return
+        new_root = next(iter(new_roots))
+        for status, paths in changes:
+            for path in paths:
+                if not path.startswith(new_root + "/"):
+                    err(f"{path}: attempt PRs may change only '{new_root}/'")
+            if not status.startswith("A"):
+                err(f"{', '.join(paths)}: new attempt files must be added, not status {status}")
+        meta = load_yaml(ROOT / new_root / "attempt.yaml")
+        if isinstance(meta, dict) and (meta.get("claim") or {}).get("status") != "exploration":
+            err(f"{new_root}/attempt.yaml: new attempts must use claim.status 'exploration'")
+        return
+
+    changed_paths = [path for _, paths in changes for path in paths]
+    if len(changed_paths) != len(attempt_changes):
+        for path in changed_paths:
+            if not ATTEMPT_PATH_RE.match(path):
+                err(f"{path}: status-update PRs may change only existing attempt.yaml files")
+    for status, path, _, inner in attempt_changes:
+        if status != "M" or inner != "attempt.yaml":
             err(
-                f"{path}: modifies/deletes content of an existing attempt (status {status}). "
-                "Attempts are append-only; corrections go in a new attempt. "
-                "Only attempt.yaml may be edited, by stewards, for status changes."
+                f"{path}: existing attempts are append-only; steward updates may only modify "
+                "attempt.yaml"
             )
 
 
@@ -242,6 +402,8 @@ def main() -> int:
         validate_problem(problem_dir, problem_schema, attempt_schema)
 
     check_global_uniqueness()
+    validate_skills()
+    validate_plugin_distribution()
 
     if args.base:
         check_scope(args.base)

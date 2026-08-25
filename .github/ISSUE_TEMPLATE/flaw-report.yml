@@ -1,4 +1,4 @@
-name: Flaw report
+name: Report a mathematical flaw
 description: Report a specific mathematical flaw in a merged attempt
 title: "[flaw] <attempt-id>: <one-line description>"
 labels: ["flaw-report"]

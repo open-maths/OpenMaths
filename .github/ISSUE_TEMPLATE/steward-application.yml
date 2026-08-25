@@ -1,0 +1,33 @@
+name: Apply as a problem steward
+description: Volunteer to review and promote claims for an OpenMaths problem
+title: "[steward] <problem-slug>: <name or handle>"
+labels: ["steward-application"]
+body:
+  - type: input
+    id: problem
+    attributes:
+      label: Problem slug
+      placeholder: "erdos-straus"
+    validations:
+      required: true
+  - type: textarea
+    id: background
+    attributes:
+      label: Relevant background
+      description: Describe the mathematical, computational, or formal-methods experience you would bring.
+    validations:
+      required: true
+  - type: textarea
+    id: availability
+    attributes:
+      label: Review commitment
+      description: What kinds of attempts can you review, and how often are you available?
+    validations:
+      required: true
+  - type: checkboxes
+    id: principles
+    attributes:
+      label: Governance
+      options:
+        - label: I have read GOVERNANCE.md and understand that promotion requires evidence, not authorship or votes.
+          required: true

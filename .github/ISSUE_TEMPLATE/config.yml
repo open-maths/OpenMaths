@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  - name: General discussion
+  - name: Research discussions and questions
     url: https://github.com/open-maths/OpenMaths/discussions
-    about: Open-ended questions, ideas, and strategy discussions about problems belong in Discussions.
+    about: Explore early ideas, ask questions, and coordinate research before it becomes a repository artifact.

@@ -108,7 +108,8 @@
   "allOf": [
     {
       "if": { "properties": { "type": { "const": "refutation" } }, "required": ["type"] },
-      "then": { "required": ["refutes"] }
+      "then": { "required": ["refutes"] },
+      "else": { "not": { "required": ["refutes"] } }
     }
   ],
   "$defs": {

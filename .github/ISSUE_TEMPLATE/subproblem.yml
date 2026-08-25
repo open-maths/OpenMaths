@@ -1,4 +1,4 @@
-name: Subproblem / research question
+name: Open a focused subproblem
 description: Pose a focused subproblem or question within an existing problem
 title: "[<problem-slug>] <question>"
 labels: ["subproblem"]

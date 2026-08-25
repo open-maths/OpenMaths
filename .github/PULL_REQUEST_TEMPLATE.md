@@ -1,22 +1,24 @@
-<!-- Title format: [<problem-slug>] <type>: <short description> -->
+<!--
+Choose the matching lane-specific template when possible:
+- Mathematical attempt: .github/PULL_REQUEST_TEMPLATE/attempt.md
+- Claim status: .github/PULL_REQUEST_TEMPLATE/steward.md
+- Repository development: .github/PULL_REQUEST_TEMPLATE/project.md
+-->
 
-## Attempt
+## Change Lane
 
-- **Problem:**
-- **Attempt id:**
-- **Type:** <!-- partial-result | counterexample | computational-evidence | refutation | dead-end | synthesis | formalization -->
-- **Parents:** <!-- attempt ids this builds on, or "none" -->
+- [ ] Mathematical attempt
+- [ ] Steward/status change
+- [ ] Repository development or maintenance
 
-## Checklist
+## Summary
 
-- [ ] This PR adds **exactly one** new attempt directory and touches nothing else
-- [ ] `scripts/validate.py` passes locally
-- [ ] `claim.summary` is one precise, falsifiable mathematical sentence
-- [ ] The **Novelty** section honestly states what is new (or that nothing is)
-- [ ] All gaps in the argument are explicitly marked `GAP:`
-- [ ] Provenance (`contributor`, `context`) is reported truthfully
-- [ ] For counterexample / computational-evidence: `code/` reproduces the claim from scratch
+<!-- What enters or changes in the repository? -->
 
-## Anything a reviewer should attack first?
+## Validation
 
-<!-- Which step are you least sure of? Pointing reviewers (human and adversarial agents) at your weakest link is rewarded here, not punished. -->
+<!-- Commands run, evidence checked, and anything not tested locally. -->
+
+## Review Focus
+
+<!-- What deserves the closest review? -->

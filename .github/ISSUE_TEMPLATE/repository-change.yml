@@ -1,0 +1,49 @@
+name: Improve the repository
+description: Report a tooling problem or propose repository development and maintenance work
+title: "[repo] <short description>"
+labels: ["repository"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Documentation and contributor experience
+        - Validation or metadata schema
+        - CI, automation, or generated dashboards
+        - Agent skill or plugin distribution
+        - Problem specification or curation
+        - Governance or maintenance policy
+        - Other repository infrastructure
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Change type
+      options:
+        - Bug or inconsistency
+        - Improvement
+        - Maintenance
+        - Policy proposal
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Current problem
+      description: Describe the affected workflow, files, or contributor experience and provide a reproducible example when possible.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: What behavior should change, and what should remain compatible?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Possible approach
+      description: Optional implementation idea, tradeoffs, or related Discussions and pull requests.

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "openmaths",
+  "version": "0.1.0",
+  "description": "Portable workflows for mathematical research, review, and collaboration in OpenMaths.",
+  "author": {
+    "name": "OpenMaths",
+    "url": "https://github.com/open-maths"
+  },
+  "homepage": "https://github.com/open-maths/OpenMaths",
+  "repository": "https://github.com/open-maths/OpenMaths",
+  "license": "Apache-2.0",
+  "keywords": [
+    "agent-skill",
+    "github",
+    "mathematics",
+    "research"
+  ]
+}

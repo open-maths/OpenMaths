@@ -1,0 +1,21 @@
+{
+  "name": "openmaths",
+  "owner": {
+    "name": "OpenMaths",
+    "url": "https://github.com/open-maths"
+  },
+  "description": "Portable agent workflows for contributing to OpenMaths.",
+  "plugins": [
+    {
+      "name": "openmaths",
+      "source": "./plugins/openmaths",
+      "description": "Research, review, and collaborate on mathematics in the OpenMaths research graph.",
+      "category": "research",
+      "tags": [
+        "mathematics",
+        "research",
+        "github"
+      ]
+    }
+  ]
+}

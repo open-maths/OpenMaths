@@ -1,39 +1,66 @@
 # Contributing to OpenMaths
 
-Humans and agents are peers here and use the same contribution format. If you are pointing an agent at this repo, the spec it needs is [AGENTS.md](AGENTS.md). This file covers the human-facing paths.
+Humans and agents are peers here and use the same contribution format. Agents can use the [`openmaths-contribute`](plugins/openmaths/skills/openmaths-contribute/SKILL.md) skill for mathematical research and collaboration workflows; [AGENTS.md](AGENTS.md) is authoritative for attempt submissions. This file summarizes the human-facing paths.
 
-## Ways to contribute
+## Choose a pull request lane
 
-### 1. Submit an attempt
-The core contribution: a lemma, a bound, a counterexample search, a refutation, a dead end, a synthesis, a formalization. Format and rules: [AGENTS.md](AGENTS.md) (they apply to humans too — `contributor.kind: human`). One attempt per PR. Run `scripts/validate.py` before pushing.
+| Lane | Use it for | Rules |
+|---|---|---|
+| Mathematical attempt | A durable result, reproduction, refutation, synthesis, or dead end | [AGENTS.md](AGENTS.md) |
+| Steward status change | Promotion, demotion, refutation, or withdrawal of a recorded claim | [GOVERNANCE.md](GOVERNANCE.md) |
+| Repository development | Documentation, schemas, tooling, CI, skills, templates, or problem infrastructure | [DEVELOPMENT.md](DEVELOPMENT.md) |
 
-### 2. Refute something
+Keep these lanes separate so mathematical review, evidence-based promotion, and software maintenance remain independently reviewable.
+
+## Mathematical collaboration
+
+### Discuss a research direction
+
+Use [Discussions](https://github.com/open-maths/OpenMaths/discussions) for open-ended questions, early ideas, strategy, and coordination that is not ready to become part of the research record. A discussion can inspire an attempt, but it is not mathematical evidence by itself.
+
+### Submit mathematical work
+
+Attempts include lemmas, bounds, counterexample searches, refutations, dead ends, syntheses, and formalizations. The format, submission scope, and verification rules are in [AGENTS.md](AGENTS.md) and apply to humans too—use `contributor.kind: human`. Run the local checks before pushing.
+
+### Run a long research campaign
+
+An agent can work for many turns before there is anything worth submitting. Use the skill's [research campaign protocol](plugins/openmaths/skills/openmaths-contribute/references/research-campaign.md) to keep a resumable local notebook, alternate proposing ideas with trying to break them, and preserve useful dead ends. A campaign is exploratory work, not an attempt; package a result only after its claim, novelty, and verification survive review.
+
+### Report or refute a flaw
+
 The health of this project depends on refutation being rewarded. If you find a flaw in a merged attempt:
-- **Quick route:** open a [flaw report issue](.github/ISSUE_TEMPLATE/flaw-report.yml) pinpointing the false step.
+
+- **Quick route:** open a [flaw report issue](https://github.com/open-maths/OpenMaths/issues/new?template=flaw-report.yml) pinpointing the false step.
 - **Full route (preferred):** submit a `refutation` attempt. It becomes a permanent node in the research graph, credited to you, and the refuted attempt's status is updated by a steward.
 
 Never edit someone else's attempt directly.
 
-### 3. Review
+### Review existing work
+
 Comment on open PRs and on merged attempts (via issues). Rigor is welcome; hostility is not. Critique claims, not contributors — and remember many contributors are agents whose operators are learning to run them better.
 
-### 4. Propose a problem
-Open a [problem proposal issue](.github/ISSUE_TEMPLATE/problem-proposal.yml). Good problems for this repo have: a precise finite statement, meaningful partial progress available, a computational or counterexample-search angle, and a clear falsification path. Maintainers curate deliberately — a small set of well-specified problems beats a large scraped one.
+### Propose a subproblem or problem
 
-### 5. Become a steward
-Stewards hold promotion authority for specific problems (see [GOVERNANCE.md](GOVERNANCE.md)). If you have domain background — academic or not — and are willing to review candidate results in a problem, open an issue introducing yourself.
+Use the [subproblem form](https://github.com/open-maths/OpenMaths/issues/new?template=subproblem.yml) for a focused research question within an existing problem. Use the [problem proposal form](https://github.com/open-maths/OpenMaths/issues/new?template=problem-proposal.yml) for a new open problem. Strong proposals have a precise statement, meaningful partial progress available, a computational or counterexample-search angle, and a clear falsification path.
+
+### Become a problem steward
+
+Stewards hold promotion authority for specific problems (see [GOVERNANCE.md](GOVERNANCE.md)). If you have domain background — academic or not — and are willing to review candidate results in a problem, submit a [steward application](https://github.com/open-maths/OpenMaths/issues/new?template=steward-application.yml).
+
+## Repository development and maintenance
+
+Repository improvements are ordinary focused project PRs, not mathematical attempts. Read [DEVELOPMENT.md](DEVELOPMENT.md) for scope, branch and title conventions, validation by changed surface, compatibility expectations, and the project PR template. Use the [repository improvement form](https://github.com/open-maths/OpenMaths/issues/new?template=repository-change.yml) for bugs, cross-cutting proposals, and maintenance work that should be discussed before implementation.
 
 ## Ground rules
 
 - **Honesty over impressiveness.** A marked gap is a contribution; an unmarked gap is a flaw. Misreported provenance (claiming the wrong model, or `blind` context that wasn't blind) gets contributions purged.
-- **Merged ≠ proved.** Do not cite anything here as established mathematics unless its status is `expert-reviewed` or `formalized`.
-- **Scope discipline.** PRs touch exactly one new attempt directory. Everything else (status changes, problem edits) is steward/maintainer territory.
+- **Status carries trust.** Do not cite anything here as established mathematics unless its status is `expert-reviewed` or `formalized`.
 - **Licensing.** Contributions are Apache-2.0 (code) and CC BY 4.0 (content). Don't paste in text you don't have the right to license.
 
 ## Local setup
 
 ```bash
-python3 -m venv .venv && .venv/bin/pip install pyyaml jsonschema
+python3 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
 .venv/bin/python scripts/validate.py     # must pass before any PR
-.venv/bin/python scripts/build_graph.py  # regenerates STATUS.md dashboards + graph.json (CI does this nightly)
+.venv/bin/python scripts/run_attempt_checks.py
 ```

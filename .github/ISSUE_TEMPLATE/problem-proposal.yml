@@ -1,4 +1,4 @@
-name: Problem proposal
+name: Propose a research problem
 description: Propose a new open problem for the repository
 title: "[problem] <short name>"
 labels: ["problem-proposal"]

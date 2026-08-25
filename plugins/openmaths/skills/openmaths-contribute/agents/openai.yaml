@@ -1,0 +1,4 @@
+interface:
+  display_name: "Collaborate on OpenMaths Research"
+  short_description: "Explore, campaign, and review mathematical work"
+  default_prompt: "Use $openmaths-contribute to orient me to OpenMaths research and choose a mathematical contribution path."

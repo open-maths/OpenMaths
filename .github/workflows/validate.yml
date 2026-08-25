@@ -4,6 +4,12 @@ on:
   pull_request:
   push:
     branches: [main]
+  schedule:
+    - cron: "31 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   validate:
@@ -18,22 +24,30 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install pyyaml jsonschema
+        run: pip install -r requirements-dev.txt
 
-      - name: Validate repository structure
+      - name: Validate repository structure and PR scope
         run: >
           python scripts/validate.py
           ${{ github.event_name == 'pull_request' && format('--base {0}', github.event.pull_request.base.sha) || '' }}
 
+      - name: Test validator policy
+        run: python -m unittest discover -s tests
+
       - name: Build research graph (dry run)
         run: python scripts/build_graph.py --check
 
-      - name: Run attempt code smoke tests
+      - name: Run attempt verification
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PUSH_BASE: ${{ github.event.before }}
         run: |
-          set -e
-          for runner in problems/*/attempts/*/code/run.sh; do
-            [ -f "$runner" ] || continue
-            echo "::group::$runner"
-            (cd "$(dirname "$runner")" && timeout 600 bash run.sh)
-            echo "::endgroup::"
-          done
+          set -euo pipefail
+          args=()
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            args=(--base "$PR_BASE")
+          elif [ "$EVENT_NAME" = "push" ] && [ -n "$PUSH_BASE" ] && [[ ! "$PUSH_BASE" =~ ^0+$ ]]; then
+            args=(--base "$PUSH_BASE")
+          fi
+          python scripts/run_attempt_checks.py "${args[@]}"

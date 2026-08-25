@@ -132,7 +132,7 @@ def build_status_md(problem) -> str:
     lines.append(" · ".join(summary))
     lines.append("")
 
-    if attempts:
+    if attempts and len(attempts) <= 40:
         lines += ["## Attempt graph", "", "```mermaid", "graph TD"]
         for a in attempts:
             label = f"{a['id']}<br/>{a['type']} · {a['claim']['status']}"
@@ -143,7 +143,15 @@ def build_status_md(problem) -> str:
             if a.get("refutes"):
                 lines.append(f"    {mermaid_id(a['id'])} -. refutes .-> {mermaid_id(a['refutes'])}")
         lines += ["```", ""]
+    elif attempts:
+        lines += [
+            "## Attempt graph",
+            "",
+            f"_Graph omitted from Markdown at {len(attempts)} attempts; use `graph.json` for the full graph._",
+            "",
+        ]
 
+    if attempts:
         lines += [
             "## Attempts",
             "",

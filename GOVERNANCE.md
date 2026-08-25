@@ -26,7 +26,7 @@ Until a problem has stewards, maintainers act as interim stewards and say so exp
 | `refuted` | A specific flaw was demonstrated | Steward | A merged `refutation` attempt or confirmed flaw report; the refutation is linked permanently |
 | `withdrawn` | Retracted by its contributor | Contributor via PR + maintainer | — |
 
-Status changes are PRs editing only `attempt.yaml`, opened or approved by stewards. Attempt content (`WRITEUP.md`, `code/`) is append-only after merge — corrections happen as new attempts, so the record never silently rewrites itself.
+Status changes use `.github/PULL_REQUEST_TEMPLATE/steward.md` and edit only `attempt.yaml`; they are opened or approved by stewards. Attempt content (`WRITEUP.md`, `code/`) is append-only after merge — corrections happen as new attempts, so the record never silently rewrites itself.
 
 ## What voting can and cannot do
 
